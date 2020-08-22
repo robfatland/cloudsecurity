@@ -4,20 +4,25 @@ Here we go through some security procedures.
 
 ## Glossary (move common terms to the main README)
 
-* IAM: Identity and Access Management, a generic term for the access mechanisms relative to a particular cloud
-  * User: A person with access to a cloud account. User-level access is controlled by assigned Roles which act as privileges.  
-  * Role: A logical construct on the cloud that grants privilege to an entity to perform actions. Entities may be Users or Services.
-    * Example: A Lambda service is unable to execcute its own code unless it is granted a Lambda execution Role
+* **IAM**: Identity and Access Management, a generic term for the access mechanisms relative to a particular cloud
+  * __User__: A person with access to a cloud account. User-level access is controlled by assigned Roles which act as privileges.  
+  * __Role__: A logical construct on the cloud that grants privilege to an entity to perform actions. Entities may be Users or Services.
+    * Example: A Lambda service is unable to execute its own code unless it is granted a Lambda execution Role
       * This decouples permission to act from the action itself as a means of making actions externally managed
-  * Policy: A text (JSON) document commonly associated with a Role that spells out the logic of granted permissions
+  * __Policy__: A text (JSON) document commonly associated with a Role that spells out the logic of granted permissions
 
-* AccessKey / SecretKey: On AWS a pair of character strings, respectively medium and long, automatically generated, used in authentication at the IAM User level.
-  * Example: The AWS CLI can be configured with these Keys to authenticate and carry out actions like launching a VM
-* PEM file: An access key file for `ssh` access to a Linux operating system. Bypasses User login password. 
-* Authentication: 'logging in' to some service, i.e. the process of providing credentials to gain access to a resource like a Virtual Machine.
-* Intrusion: Unuathorized use of a resource.
-* SSO: Single Sign-On, refers to confederating authentication where a single identity can be used to authenticate to more than one service.
-* MFA / TFA: Multi-factor authentication / Two-factor authentication. Means of using multiple authentication actions to reduce intrusion risk.
+* **Authentication**: 'logging in' to some service, i.e. the process of providing credentials to gain access to a resource like a Virtual Machine. COmmon authentication strategies include: 
+  * __Access Keys__ (Access Key ID / Secret Access Key): On AWS, a pair of character strings, respectively medium and long, automatically generated, used in authentication at the IAM User level.
+    * Example: The AWS CLI can be configured with these Keys to authenticate and carry out actions like launching a VM.
+  * __PEM file__: An access key file for `ssh` access to a Linux operating system. Bypasses User login password. Safer than passwords usually as no one can see you type the password. 
+  * __AWS STS__: AWS Security Token Service enables you to request temporary, limited-privileged credentials for authentication. This is the recommended way to use the AWS CLI / SDK on AWS resources for longer term deployments. 
+  * **SSO**: Single Sign-On, refers to confederating authentication where a single identity can be used to authenticate to more than one service.
+  * **MFA / TFA**: Multi-factor authentication / Two-factor authentication. Means of using multiple authentication actions to reduce intrusion risk.
+
+* **Security Group**: A list of rules specifying the type of access to your AWS resource. These rules can be updated on the fly without stopping the resource, and apply immediately. 
+  * Example: For EC2 instance, we usually open the port 22 for access (Inbound rules), and specify either anyone (least recommended, use with care) can access it or only your IP can access it (safest, best to use if this is your first time) or something in between.  
+
+* **Intrusion**: Unuathorized use of a resource.
 
 ### Relocate this link to section on scale
 
@@ -65,3 +70,8 @@ Here we go through some security procedures.
 * Example: An `a1.medium` instance (ARM based) is $0.0255 per Hour. 
   * This comes to $300 / year for a simple secure access path
   * Reduce this cost by shuting the instance down when not in use
+
+## Guides
+
+* [Limiting the type of EC2 instances that the user can launch](Guides/limiting_ec2_instance_types.md). 
+* [Programmatically launching an EC2 instance using AWS JavaScript SDK with an IAM role authorizing AWS CloudWatch Agent to send logs to AWS CloudWatch without using Access Keys](Guides/programatic_ec2_cw.md)

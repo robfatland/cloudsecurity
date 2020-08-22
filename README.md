@@ -17,5 +17,5 @@ users confidence that their data and work will not be corrupted or lost.
 
 ## Where next? 
 
-To look at the resource materials used in the video click into the [AWS](https://github.com/robfatland/cloudsecurity)
+To look at the resource materials used in the video click into the [AWS](AWS/README.md)
 sub-folder and go from there. 
