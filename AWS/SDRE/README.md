@@ -159,80 +159,14 @@ project timeline.
 
 # [Extended Documentation (Source)](http://cloudmaven.github.io/documentation/aws_hipaa.html)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-title: AWS HIPAA
-keywords: aws, hipaa
-last_updated: January 25, 2017
-tags: [AWS, HIPAA, medicine, data_management, case_studies, storage, research_computing, data_science]
-summary: "Building a secure compute environment; with examples"
-sidebar: mydoc_sidebar
-permalink: aws_hipaa.html
-folder: aws
----
-
-
 ## Introduction
 
-
-[This document](aws_hipaa.html) presents a secure data management system motivated 
-by the need to manage data securely in the public cloud. We take more specific motivation 
-from management of Private Health Information (PHI) under HIPAA regulations.
-
-
-
-## CC*IIE Remarks
-
-Please refer to the cloudmaven generic [data security page](cc/cc_data_security.html) for 
-remarks on campus cyberinfrastructure. This page is specifice to both the AWS public cloud
-and HIPAA regulations but has a general procedural and social applicability to the task of
-keeping research project data secure.
-
-
+These notes concern management of Private Health Information (PHI) under HIPAA regulations.
 
 
 ## Links
 
-
 - [AWS features that are HIPAA-aligned](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/)
-
-
 - [AWS talk (YouTube) on HIPAA compliance](https://www.youtube.com/watch?v=g4XI4IIYVrw)
 - [AWS HIPAA compliance blog Part 1 Automation](https://aws.amazon.com/blogs/security/how-to-automate-hipaa-compliance-part-1-use-the-cloud-to-protect-the-cloud/)
 - [AWS HIPAA compliance blog Part 2 Deployment](https://aws.amazon.com/blogs/security/how-to-use-aws-service-catalog-for-code-deployments-part-2-of-the-automating-hipaa-compliance-series/)
@@ -240,78 +174,45 @@ keeping research project data secure.
 - [AWS HIPAA compliance blog Part 4 Config](https://aws.amazon.com/blogs/security/how-to-use-aws-config-to-help-with-required-hipaa-audit-controls-part-4-of-the-automating-hipaa-compliance-series/)
 - [AWS HIPAA compliance architecture](https://medium.com/aws-activate-startup-blog/architecting-your-healthcare-application-for-hipaa-compliance-part-2-ea841a6f62a7)
 - [AWS HIPAA compliance white paper](http://d0.awsstatic.com/whitepapers/compliance/AWS_HIPAA_Compliance_Whitepaper.pdf)
+- The [NIST 800-66 HIPAA Compliance](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-66r1.pdf) documents
+  - Note that this cross-links to NIST 800-53 in Appendix D: A supporting document
+- [HIPAA home page](https://www.hhs.gov/hipaa/index.html/)
+- [HIPAA on Wikipedia](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act)
+- [HIPAA Privacy Rule Summary](https://www.hhs.gov/hipaa/for-professionals/privacy/laws-regulations/index.html)
+- [AWS Accelerator: NIST broad spectrum](https://aws.amazon.com/quickstart/architecture/accelerator-nist/)
+    - [Related Excel 'security matrix'](https://s3.amazonaws.com/quickstart-reference/enterprise-accelerator/nist/latest/assets/NIST-800-53-Security-Controls-Mapping.xlsx)
+- [Observational Medical Outcomes Partnership (OMOP)](http://omop.org/)
 
 
-### Use Case Outline
+
+The term introduced above, **SDRE** for Secure Digital Research Environment, may in the ensuing notes
+be referred to as a Secure Computing 
+Environment or **SCE**. 
 
 
-The objective of this project is to accelerate medical research involving PHI via a HIPAA-aligned 
-Business Associeates Agreement between a university and AWS. The strategy is to build a Secure Computing 
-Environment (abbreviated **SCE** here) that addresses the three primary considerations: Data security
+There are three primary considerations: Data security
 (e.g. encryption considerations), reporting (e.g. logging access) and human use factors (e.g. access key
-best practices), all with the idea of reducing risk of compromise to the SCE. The end result is that 
-the public cloud should *disappear*: Researchers simply focus on their research.
-
-
-#### This content in relation to other resources
-
-
-The content provided here may be thought of as a limited foray into an SCE. The links above are much more 
-comprehensive.  A primary objective of the 'limited foray' is to provide a record of the thought process
-*de novo*, i.e. it is an attempt to de-mystify matters for a medical researcher, our target audience.  
-Before proceeding into technical details of the implementation we therefore describe a typical use 
-case with related considerations. This is then referenced in more detail below.
+best practices).
 
 
 
-#### Use Case
+#### Cloud Services
+
+* AWS EC2 instance: A working Virtual Machine
+* AWS S3 object storage: Unlimited data storage capacity
+* AWS RDS relational database as a service
 
 
-- Researcher awareness: Service catalog, word-of-mouth etc
-- Project approved: IRB 
-- Request for Secure Computing Environment, billing mechanism (e.g. ITHS; Red Cap form)
-- Research proceeds!
-  - Researcher wants data to go in... 
-    - S3 would be the initial destination idea
-    - An RDS on a VPC private subnet would be the eventual destination...
-    - ...via a S3 endpoint pull from S3
-  - Researcher wants a working environment on an EC2 on the private subnet
-    - with encrypted EBS
-    - kilroy consider using Workspaces which is HIPAA-compliant
-      - runs either through a Client or in the browser: A Virtual Desktop
-      - can look into S3 
-      - configuration details TBD
-- Close out
-
-
-
-#### Relevant Issues 
+#### Issues 
 
 
 - Logging/reporting: How the Researcher can report to a CRO 'these data were used' at the table row level
-- Does this work differentiate a bespoke versus a multi-team / shared data project?
 - Access constrained to certain IP addresses only (CIDR block)
-- NetID authentication
-- Technical support from within UW
-- If data are breeched: What is the response plan, how does the vendor participate?
-- Is a 'third party solution' path worth exploring?
-
-
-### Secure Computing Environment Framework
-
-
-The *framework* for an SCE is a set of guiding ideas and concepts, particularly with the idea of establishing
-a common vocabulary.  We develop this framework here in the introduction and follow this with three following
-sections:  
-
-
-- Technical details for building a secure computing environment (SCE) on AWS 
-- A first example system with synthetic data 
-- A second example system using OMOP data 
-
-
-Both example SCEs incorporate synthetic data; the second being built upon the Observational Medical Outcomes 
-Partnership (OMOP) unrestricted SynPUF dataset. 
+- Authentication via confederated service like CILogon or NetID
+- If a data breech: What is the response plan, how does the vendor participate?
+- Synthetic data: Simple Python example, OMOP as a deeper resource
+    - OMOP = Observational Medical Outcomes Partnership
+    - Specifically there is an unrestricted-use synthetic SynPUF dataset. 
 
 
 In a simple view HIPAA regulations require that data be encrypted both at rest (on a storage device) 
@@ -335,180 +236,63 @@ according to established practices; including documentation and logging access.
 HIPAA compliance is *more* than using HIPAA-aligned technologies from AWS.
 
 
-We proceed with the following program:
-
-
-- Complete the preamble with an expanded version of the User Story and open question list
-- Part 1: Instructions for building a secure compute environment (SCE) on the AWS cloud
-  - Constructing a Virtual Private Cloud
-  - Constructing storage, compute and data management elements
-  - Logging and tracking activity
-- Describe Proof-of-Concept **A** 
-  - Simple; including a small synthetic dataset
-  - Obtaining and operating up this data
-  - Examining logs
-  - Cost estimate
-- Describe Proof-of-Concept **B** 
-  - Substantial synthetic dataset
-  - Queryable Redshift database
-  - Web application supporting data visualization
-  - Cost estimate
-
-
-While this study uses AWS our team is also building comparable structures on other cloud platforms, 
-notably on the Microsoft Azure public cloud. 
-
-
-### Links
-
-
-- The [NIST 800-66 HIPAA Compliance](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-66r1.pdf) documents
-  - Note that this cross-links to NIST 800-53 in Appendix D: A supporting document
-- [HIPAA home page](https://www.hhs.gov/hipaa/index.html/)
-- [HIPAA on Wikipedia](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act)
-- [HIPAA Privacy Rule Summary](https://www.hhs.gov/hipaa/for-professionals/privacy/laws-regulations/index.html)
-- [AWS Accelerator: NIST broad spectrum](https://aws.amazon.com/quickstart/architecture/accelerator-nist/)
-  - [Related Excel 'security matrix'](https://s3.amazonaws.com/quickstart-reference/enterprise-accelerator/nist/latest/assets/NIST-800-53-Security-Controls-Mapping.xlsx)
-- [Observational Medical Outcomes Partnership (OMOP)](http://omop.org/)
-- [Email contact at DLT to advise of HIPAA use](cloud@dlt.com)
-
-
 ### Admonitions
 
 
-- ***When using a DLT-provided AWS account for PHI you must notify DLT of this in advance: cloud@dlt.com***
+- ***Notify cloud provider of intent to use PHI***
 - ***The acronym SCE is used extensively on this page to denote a Secure Computing Environment.***
-- ***AWS has more than twelve HIPAA-aligned technologies. Only these technologies may come into contact 
-with PHI.  Other technologies can be used provided there is no such contact.***
+- ***AWS has many HIPAA-aligned technologies. Only these technologies may come into contact 
+with PHI.  Other technologies can be used in an SCE provided there is no such contact.***
 - ***HIPAA compliance is an obligation of the data system builder, the medical researcher
 and the parent organization(s).***
 - ***The public cloud is very secure: physically and technologically. 
 Compromise is most likely to be caused by human error.***
 - ***File names may not include PHI.***
-- ***AWS has many virtual machine / instance / EC2 types, particularly general purpose computers 
-called m-type. These are fine to use in an SCE. There is also a lightweight instance type called 
-a t-type.  The t instance type by its nature will not connect to a Dedicated Tenancy VPC. 
-Hence t-type AWS EC2 instances may not be used in an SCE.***
+- ***AWS VM types have associated connectivity rules; be aware before including a particular type in an SCE***
 
 
 ### Extended User Story
 
 
-- A scientist *K* receives approval from the IRB to work with PHI data. 
-  - Intent: Analyze these data in a Secure Compute Environment (SCE) 
-- *K* initiates a cloud solution project that includes a billing mechanism
-- *K* contacts IT professional *J* to build an SCE as a working environment
-  - Initial steps align *K* and *J* to build the SCE
-  - The SCE is set up by *J* with *K*'s help as described below
-  - Data are uploaded to storage on AWS from a secure device
-- *K* is provided with access to the SCE
-  - Specifically 
-    - A pem file and ip address of a bastion server **B**
+- A scientist receives approval from the IRB to work with PHI data. 
+    - Intent: Analyze these data in a Secure Compute Environment (SCE) 
+- scientist initiates a cloud solution project that includes a billing mechanism
+- scientist contacts IT professional to build an SCE as a working environment
+- Data are uploaded to storage on AWS from a secure device
+- scientist is provided with access to the SCE 
+    - A pem file and ip address of a bastion server
     - A login and password to a private subnet EC2 instance
-    - Notice there is no IAM User account involved 
-      - Console access not needed
-  - *K* logs on to the SCE
-    - There is some potential initial configuration, e.g. installing software
-    - *K* carries out data analysis over time; system activity is automatically logged
-  - There are a number of stretch goals to call out
-    - Patient-held devices could contribute data streams e.g. via phone app using the API Gateway 
-    - These data supplement the research
-  - The study concludes, data and results are preserved, log files preserved, the SCE is deleted
-    - No trace remains
+    - Notice there is no IAM User account involved: Console access not needed
+- IT pro logs in; does configuration
+- scientist carries out data analysis over time; system activity is automatically logged
+- issue to consider: Patient-held devices could contribute data streams e.g. via phone app using the API Gateway 
+- study concludes, data and results are preserved, log files preserved, the SCE is deleted, no trace remains
+- issue to consider: AMIs are preserved for future SCE work
 
 
-### Supplemental SCE ideas 
+### Questions / Discussion Topics
 
-
-- Simplest use case is the static scenario given above
-- Expansion use cases will involve external devices (phones, sensors)
-  - Data direct to cloud: Authenticate, validate data, match to patient
-  - Standard format (HL7? CCD?) 
-- Further expansion
-    - Bidirectional data sharing
-      - Device, cloud, EHR
-  - End result: Allowed persons (care / research) can get to all of this data 
-- On the cloud: How do we manage installing / updating tools for analysis?
-  - Include Machine Learning; Visualization, Comparatives w/r/t analytic datasets (reference genome for example)
-- This cloud story will progress in stages
-- From an IT view: What are the SCE constraints? 
-  - Are AWS Services available within a VPC? IS a VPC required? 
-  - Currently there are 13 HIPAA-aligned technologies
-    - API Gateway
-      - Would be the mechanism for allowing a phone to report blood pressure
-    - Direct Connect
-    - Snowball
-    - DynamoDB
-    - EBS
-    - EC2
-    - EMR
-    - ELB
-    - Glacier
-    - RDS
-    - Aurora
-    - Redshift
-    - S3
-  - This number is growing; and new contributions accrue automatically to the BAA
-
-
-### Intermezzo Kilroy stack (a list of must-fix details)
-
-
-- Questions from Dogfooding on March 23 2017
-
-  - A VPC costs nothing per day. EC2, EBS, networking egress (9 cents per Gig EC2 to internet), S3 egress is 9 cents per Gig up to 10 TB (then it drops a bit for more) 
+- A VPC costs nothing per day. EC2, EBS, networking egress (9 cents per Gig EC2 to internet), S3 egress is 9 cents per Gig up to 10 TB (then it drops a bit for more) 
     - Other charges: NAT Gateway is 4.5 cents per hour plus 4.5 cents per Gigabyte
-    - S3 also costs... now 2.3 cents per GB-month. RDS costs based on chosen instance size. 
-      - Medium instance runs $1.16 per hour for the EC2 instance (which I see in the RDS console; but not in the EC2 console)
-      - $0.10 per GB-month for the storage which is equivalent to the EBS rate
-      - The I/O rate against the storage is 20 cents per one million requests so essentially free
-      - Backup storage is automated; and that costs at the S3 rate, 2.3 cents per Gig (less than the EBS snapshot cost)
-      - While we're here: What is the EBS snapshot cost? To S3: 5 cents per GB month 
-      - Let's talk Stop
-        - Launch: I am pulling an AMI out of S3 onto an EBS root volume (the OS is part of this) attached to an EC2
-          - This is EBS-backed AMI. There is also Instance Store-backed AMIs which would be for insanely fast local solid state drive access: Because these install directly into the solid state drive on the EC2, not on an EBS.
-        - I have an EC2 and I click Stop: Now I am paying for its EBS. That is: The EBS persists. To pay snapshot rate (0.05 per GB mo) I have to snapshot this EBS. 
-          - The snapshot runs $0.05 / GB month an d this is on the portion of the EBS it needs to save; not "all of it" 
-          - It might make sense to store a /data volume in S3 to save money. But this is splitting hares.
-        - Now I want to go back to my EC2 (which I stopped) from my Snapshot.
-        - Now I want to create an AMI: Ok do that. It is a snapshot plus a little bit of metadata about the instance
-          - Now I can re-start the AMI 
-          - This is the more typical use case 
-          - In fact from a stop work and start again later think AMI
-          - Philosophically get in the habit of adding a data partition to decouple your data from your compute
-          - Code base: GitHub
-        - So now the Launch process can include User Data which is a script that loads the code base from GitHub
-          - To avoid doing manual security patches: User Data lives outside the AMI and can install packages like Python 2.7 and GitHub pulls and so on; but there is a backward compatibility possible issue
-
-  - Changing instance type
-    - Stop
-    - EC2 console
-      - Change instance type
-        - Upgrade! T2.micro to P2.16X
-    - AMI
-      - Tame deal
- 
-  - Create VPC...
-    - Does my VPC need a CIDR that doesn't overlap other ones in my account? 10.0.0.0 is very popular...
+    - S3 also costs... now 2.3 cents per GB-month
+    - RDS costs based on chosen instance size
+    - Stopped EC2: Still pay for its EBS. Snapshot rate is $0.05 per GB month (but unused volume is compressed to zero)
+- A code base on GitHub is an open topic
+- Changing instance type
+- Create a VPC
+    - 'Namespace': Does the VPC need a CIDR that doesn't overlap other VPCs in my account? 10.0.0.0 is very popular...
         - VPCs can have overlapping CIDR blocks. However not if they are going to be peered. 
         - VPN also can create conflicts. So yes: Overlap is fine when they are independent bubbles. 
-        - So: Peered VPCs are to be avoided and must not have collisions; otherwise fine
+        - Peered VPCs are to be avoided and must not have collisions; otherwise fine
     - Stipulate 'Default Tenancy': 
-      - Shared versus dedicated: Shared is now allowed; so do not use Dedicated Tenancy for HIPAA: This is now in the BAA as unnecessary for HIPAA compliance.
+        - Shared versus dedicated: Shared is now allowed; so do not use Dedicated Tenancy for HIPAA: This is now in the BAA as unnecessary for HIPAA compliance.
     - Creating subnets: AZ: VPC is regional
-      - Subnets are associated with AZs and should be intentionally designated
-      - Using multiple AZs (multiple subnets across AZs) will make the VPC "present" in those AZs
+        - Subnets are associated with AZs and should be intentionally designated
+        - Using multiple AZs (multiple subnets across AZs) will make the VPC "present" in those AZs
         - There is a charge for inter-AZ bandwidth: 1 cent per Gig which is one ninth the egress to internet rate
         - for SCE it is more controlled to be in just one AZ
-      - Going multi-AZ would be a high availability strategy which is a compute-heavy idea 
-- AB: How to do determine Account has been registered at AWS as PHI/HIPAA-active?
-  - Email aws-hipaa@amazon.com and include the account number
-  - Is there a DLT component? 
-- Generate and incorporate a scientist workflow diagram with extensive caption per User Story
-- Generate and incorporate a complete SCE architecture diagram near the top of this 
-- Create a sub-topic around **L**: In coffee shop, in a data center (out of Med Research), etcetera
-  - **Risk**
-  - coffee shop 
+        - Going multi-AZ would be a high availability strategy which is a compute-heavy idea 
+- Coffee shop risk: What happens with that laptop?
 - Verify correct: There is one private address space per VPC: All VPC resources map to this
   - ...and Public elements also have world-facing ip addresses
   - ...and all private addresses are stable; no bounce problem
@@ -541,7 +325,7 @@ Hence t-type AWS EC2 instances may not be used in an SCE.***
   - CLI from **L** works but requires authentication
 - For the learner we must differentiate SQS and SNS
   - [S3 event notification link](https://aws.amazon.com/blogs/aws/s3-event-notification/)
-  - [AWS notification how-to[(http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html)
+  - [AWS notification how-to](http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html)
   - Describe the PubSub concept
   - Try this: SQS is a queue where *things* sit; polling it triggers processes
     - CANVAS LMS is apparently a good example since students are interacting with it frequently
@@ -620,26 +404,6 @@ Hence t-type AWS EC2 instances may not be used in an SCE.***
       - which uses something called SES to send another email: Done
     - **Wi** evaporates completely leaving no trace
 
-
-
-### Plan for the SCE POCs A and B
-
-
-1. Build a system architecture and diagram  
-  - Anticipate <new data to EMR> pipeline, <IOT to VM> pipeline
-  - EMR / data warehouse / Red Cap survey system / new clinical data / sensors
-  - Destinations are RDS, S3, EBS
-  - AWS big box, VPC inside, Public and Private subnets inside VPC
-  - NAT gateway inside the Public subnet box
-  - Internet Gateway on boundary of VPC
-  - S3 Endpoint on boundary of VPC
-2. Artificial data 1
-  - static historical synthetic data (from EMR)
-  - IOT stream
-  - anticipate study-to-clinical pipeline
-3. Complete system including analytical tools
-  - include R, Python, Jupyter 
-4. Artificial data 2 see KS
 
 
 
@@ -735,9 +499,6 @@ Since AWS appropriates five ip addresses for internal use
 ip address assignment automatic.  
 
 
-### 1B. Create a Virtual Private Cloud
-
-
 #### Build the VPC 
 
 
@@ -750,12 +511,6 @@ across the entire AWS cloud.
 
 
 - From the console create a new VPC **V**
-
-
-![Create VPC](/documentation/images/aws/hipaa0001.png)1
-![Dedicated tenancy Create VPC](/documentation/images/aws/hipaa0002.png)2
-![VPC listing](/documentation/images/aws/hipaa0003.png)3
-
 
   - Give **V** a PIT name 
 
@@ -798,13 +553,6 @@ across the entire AWS cloud.
   - Create subnets **Spublic** and **Sprivate**
 
 
-![Create Subnet 1 of 5](/documentation/images/aws/hipaa0004.png)4
-![Create Subnet 2 of 5](/documentation/images/aws/hipaa0005.png)5
-![Create Subnet 3 of 5](/documentation/images/aws/hipaa0006.png)6
-![Create Subnet 4 of 5](/documentation/images/aws/hipaa0007.png)7
-![Create Subnet 5 of 5](/documentation/images/aws/hipaa0008.png)8
-
-
     - The private subnet **Sprivate** is where work on PHI proceeds
       - CIDR block 10.0.1.0/24
       - **Sprivate** will be firewalled behind a NAT gateway
@@ -823,11 +571,6 @@ across the entire AWS cloud.
   - Create an an Internet Gateway **IG**
 
 
-![Create IGW 1 of 4](/documentation/images/aws/hipaa0009.png)9
-![Create IGW 2 of 4](/documentation/images/aws/hipaa0010.png)10
-![Create IGW 3 of 4](/documentation/images/aws/hipaa0011.png)11
-![Create IGW 4 of 4](/documentation/images/aws/hipaa0012.png)12
-
 
     - Give a PIT name as in 'hipaa_internetgateway'
     - Attach hipaa_internetgateway to **V**
@@ -836,26 +579,12 @@ across the entire AWS cloud.
   - Create a NAT Gateway **NG**
 
 
-![NAT 1 of 4](/documentation/images/aws/hipaa0013.png)13
-![NAT 2 of 4](/documentation/images/aws/hipaa0014.png)14
-![NAT 3 of 4](/documentation/images/aws/hipaa0015.png)15
-![NAT 4 of 4](/documentation/images/aws/hipaa0016.png)16
-
-
     - Give it a PIT name
     - Elastic IP assignment may come into play here
 
 
   - Create a route table **RTpublic** 
 
-
-![public route table 1 of 7](/documentation/images/aws/hipaa0017.png)17
-![public route table 2 of 7](/documentation/images/aws/hipaa0018.png)18
-![public route table 3 of 7](/documentation/images/aws/hipaa0019.png)19
-![public route table 4 of 7](/documentation/images/aws/hipaa0020.png)20
-![public route table 5 of 7](/documentation/images/aws/hipaa0021.png)21
-![public route table 6 of 7](/documentation/images/aws/hipaa0022.png)22
-![public route table 7 of 7](/documentation/images/aws/hipaa0023.png)23
 
 
     - Give it a PIT name: 'hipaa_publicroutes'
@@ -867,13 +596,6 @@ across the entire AWS cloud.
 
 
   - public route table **RTpublic** 
-
-
-![private route table 1 of 5](/documentation/images/aws/hipaa0024.png)24
-![private route table 2 of 5](/documentation/images/aws/hipaa0025.png)25
-![private route table 3 of 5](/documentation/images/aws/hipaa0026.png)26
-![private route table 4 of 5](/documentation/images/aws/hipaa0027.png)27
-![private route table 5 of 5](/documentation/images/aws/hipaa0028.png)28
 
 
 Note: The console column for subnets shows "Auto-assign Public IP" and this should be set to
@@ -927,14 +649,9 @@ data will be encrypted when it comes to rest in the bucket.
 [AWS link for S3 server-side encryption policy for copy-paste](http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html)
 
 
-![AWS HIPAA encryption bucket policy screencap](/documentation/images/aws/hipaa0031.png))
-
 
 #### S3 Endpoints
 
-
-![S3 endpoint 1 of 2](/documentation/images/aws/hipaa0029.png)29
-![S3 endpoint 2 of 2](/documentation/images/aws/hipaa0030.png)30
 
 An S3 Endpoint is routing information associated with the VPC.  S3 access from the VPC should not go through 
 the public internet; and this routing information ensures that. The S3 Endpoint is not subsequently invoked; 
@@ -1261,275 +978,9 @@ This narrative is continued below in Part 2 under 'operating within the POC'.
 ### 2B. Creating the synthetic dataset 
 
 
-The following is a snapshot of some Python code that generates two CSV files with imaginary health
-data. The data are non-trivial insofar as three of the measured values are related to vitals. 
+[This code](https://github.com/robfatland/cloudsecurity/blob/master/syntheticdata/createsynthetic.py) generates 
+a simple synthetic dataset.
 
-
-```
-# 100 people (all named John) live in a small town with one doctor. They appeared in this town
-#   on October 30, 1938 all at once. Every day or two one of them at random visits the doctor
-#   where his vital signs are recorded: Blood pressure (two numbers), respiration rate, heart rate,
-#   blood oxygen saturation, body temperature (deg F) and weight (pounds). The doctor also asks
-#   'Since your last visit how many albums have you purchased by Count Basie? By T-Pain? By the 
-#    Dead Kennedys?' This process generates a 10,000 row time-series database over 41 years. 
-#
-# The code below builds 3 tables (each being a list of lists) and these are written to CSV files.
-#   The following are some notes on these tables and related parameters.
-#
-#  Tstudy is the first day of study data, morning of October 30 1938
-#  Tborn is the latest possible date of birth, Dec 31 1922 (so all participants are 16 or older)
-#    However all participants give their DOB as August 26 1920.
-#
-# The Python random number generator is given a fixed seed so that this code always generates the 
-#   same patient history.
-#
-#  1. patient table p: Surname, Given Name, DOB, (height feet, inches), patient ID
-#  2. patient parameters pp: for internal use
-#  3. time series data ts: Across all patients
-#
-
-import datetime
-import random as r
-import csv
-
-Tborn = datetime.datetime(1922,12,31,0,0,0)
-Tstudy = datetime.datetime(1938,10,30,0,0,0)
-
-pName = 'patients.csv'
-ppName = 'patientParameters.csv'
-tsName = 'timeseries.csv'
-
-# Keep results reproducible using a fixed random number seed
-r.seed(31415)
-
-lc = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-uc = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-
-def RandLastName():
-    return uc[r.randint(0,25)]+lc[r.randint(0,25)]+lc[r.randint(0,25)]+lc[r.randint(0,25)]
-
-def cmtoftin(ncm):
-    if ncm < 50*2.54: return {5,8}
-    nin = ncm / 2.54
-    nft = int(nin/12)
-    nin = int(nin - 12*nft)
-    return (nft, nin)
-
-def ftintocm(height):
-    height_in = height[0]*12 + height[1]
-    return int(height_in*2.54)
-
-def someheight():
-    hgtLow = 157
-    hgtHi = 198     # from 5 foot 2 to 6 foot 6
-    return cmtoftin(r.randint(hgtLow, hgtHi))
-
-sysMin = 90
-sysMax = 129
-diaMin = 60
-diaMax = 84
-rrMin = 10
-rrMax = 20
-hrMin = 40
-hrMax = 100
-osMin = 95.0
-osMax = 99.0
-btMin = 97.0
-btMax = 99.1
-mMin = 98
-mMax = 280
-
-def ModelBaseE(hr, sys, dia, bmi):
-    if hr > 58 and hr < 62 and sys-dia > 30 and bmi < 22: return 1
-    return 0
-
-def ModelTPain(rr, os, height): 
-    return float(rr) + 2.0*(os-95.0)+0.2*(ftintocm(height)-157)
-
-def ModelDK(weight, bt):
-    if weight < 150 and bt < 97.4: return 1
-    return 0
-
-def RandomSystolic(a,b):
-    return r.randint(a,b)
-
-def RandomDiastolic(a,b):
-    return r.randint(a,b)
-
-def RandomRespirationRate(a,b):
-    return r.randint(a,b) 
-
-def RandomHeartRate(a,b):
-    return r.randint(a,b) 
-
-def RandomOxygenSaturation(a,b):
-    return r.uniform(a,b)
-
-def RandomBodyTemperature(a,b):
-    return r.uniform(a,b)
-
-def RandomMass(a,b):
-    return r.randint(a,b)
-
-def BMI(height,mass):
-    height_in = height[0]*12+height[1]
-    return 703.0*mass/(height_in*height_in)
-
-nPatients = 100
-bornDay = datetime.datetime(1920,8,26,8,30,12)
-p=[]
-pHdr = []
-pp=[]
-ppHdr=[]
-
-pSurnameIndex = 0
-pFirstNameIndex = 1
-pDOBIndex = 2
-pHeightIndex = 3
-pIDIndex = 4
-
-pHdr.append(['Surname','Given name', 'DOB', 'height', 'ID'])
-p.append(['Bigboote','John',bornDay,someheight(),0])
-p.append(['Yaya','John',bornDay,someheight(),1])
-p.append(['Smallberries','John',bornDay,someheight(),2])
-p.append(['Parker','John',bornDay,someheight(),3])
-p.append(['Whorfin','John',bornDay,someheight(),4])
-p.append(['Valuk','John',bornDay,someheight(),5])
-p.append(['Gomez','John',bornDay,someheight(),6])
-p.append(['OConnor','John',bornDay,someheight(),7])
-p.append(['Emdall','John',bornDay,someheight(),8])
-p.append(['Gant','John',bornDay,someheight(),9])
-p.append(['Manyjars','John',bornDay,someheight(),10])
-p.append(['Milton','John',bornDay,someheight(),11])
-
-pDone = len(p)
-for i in range(nPatients-pDone):
-    while True:
-        nextName = RandLastName()
-        if not nextName in p:
-            p.append([nextName,'John',bornDay,someheight(),i+pDone])
-            break
-
-with open(pName,'wb') as patientFile:
-    csvWriter = csv.writer(patientFile, dialect='excel')
-    csvWriter.writerows(pHdr)
-    csvWriter.writerows(p)
-
-# The next table is pp for 'patient parameters' and it requires some explanation
-# It will be used for two purposes: To keep static range parameters for the patient's vital
-#   signs (used to generate the time series data on a per-patient basis) and it will also
-#   be used to track cumulative values for the three 'effect' categories BaseE, TPain and DK.
-#
-#   In passing: These are meaningless categories. Their similarity in sound to musical acts 
-#   is coincidental. 
-#
-ppIDidx=0
-ppS0idx=1
-ppS1idx=2
-ppD0idx=3
-ppD1idx=4
-ppRR0idx=5
-ppRR1idx=6
-ppHR0idx=7
-ppHR1idx=8
-ppOS0idx=9
-ppOS1idx=10
-ppBT0idx=11
-ppBT1idx=12
-ppM0idx=13
-ppM1idx=14
-ppSUMBidx=15
-ppSUMTidx=16
-ppSUMDKidx=17
-
-ppHdr.append(['ID','S0','S1','D0','D1','RR0','RR1','HR0','HR1','OS0','OS1',\
-           'BT0','BT1','M0','M1','SUMB','SUMT','SUMDK'])
-
-
-for i in range(nPatients):
-    s0 = r.randint(sysMin, sysMax)
-    s1 = s0 + r.randint(4,20)       # a range of systolic pressures (mmHg)
-    d0 = r.randint(diaMin, diaMax)
-    d1 = d0 + r.randint(4,10)       # a range of diastolic pressures
-    rr0 = r.randint(rrMin, rrMax)
-    rr1 = rr0 + r.randint(2,8)
-    hr0 = r.randint(hrMin, hrMax)
-    hr1 = hr0 + r.randint(10,20)
-    os0 = r.uniform(osMin, osMax)
-    os1 = os0 + r.uniform(1.0,2.0)
-    bt0 = r.randint(sysMin, sysMax)
-    bt1 = bt0 + r.randint(3,20)
-    m0 = r.randint(mMin, mMax)
-    m1 = m0 + r.randint(3,40)    
-    pp.append([i,s0, s1, d0, d1, rr0, rr1, hr0, hr1, os0, os1, \
-               bt0, bt1, m0, m1, 0, 0, 0])
-
-    
-# Study begins on October 30 1938, generates 10,000 records and continues for about 41 years
-ts = []
-tsHdr = []
-tsHdr.append(['date','ID','systol','diastol','resp.rate','heart rate','OSat','temp',\
-           'weight','BMI','BaseE','TPain','DK','sum BaseE','sum TPain','sum DK'])
-
-Time = Tstudy
-for i in range(10000):
-    # generate this timestamp
-    thisID = r.randint(0,99)
-    
-    # for each of the following vitals we allow a bit of correcting goofy values
-    
-    # blood pressure
-    thisSys = RandomSystolic(pp[thisID][ppS0idx], pp[thisID][ppS1idx])
-    thisDia = RandomDiastolic(pp[thisID][ppD0idx], pp[thisID][ppD1idx])
-    if thisDia >= thisSys - 3: thisDia = thisSys - 4
-    
-    # Respiration and Heart rates
-    thisRR = RandomRespirationRate(pp[thisID][ppRR0idx], pp[thisID][ppRR1idx])
-    thisHR = RandomHeartRate(pp[thisID][ppHR0idx], pp[thisID][ppHR1idx])
-    
-    # blood oxygen saturation
-    thisOS = RandomOxygenSaturation(pp[thisID][ppOS0idx], pp[thisID][ppOS1idx])
-    if thisOS > 99.4: thisOS = 99.4
-     
-    # body temperature 
-    thisBT = RandomBodyTemperature(pp[thisID][ppBT0idx], pp[thisID][ppBT1idx])
-    
-    # body weight and BMI
-    thisMass = RandomMass(pp[thisID][ppM0idx], pp[thisID][ppM1idx])
-    thisBMI = BMI(p[thisID][pHeightIndex], thisMass)
-    
-    # three 'diagnostic observations'
-    thisBaseE = ModelBaseE(thisHR, thisSys, thisDia, thisBMI)
-    thisTPain = ModelTPain(thisRR, thisOS, p[thisID][pHeightIndex])
-    thisDK = ModelDK(thisBMI, thisBT)
-    
-    # track the cumulatives of the diagnostics
-    pp[thisID][ppSUMBidx]+=thisBaseE
-    pp[thisID][ppSUMTidx]+=thisTPain
-    pp[thisID][ppSUMDKidx]+=thisDK
-    thisSumBaseE = pp[thisID][ppSUMBidx]
-    thisSumTPain = pp[thisID][ppSUMTidx]
-    thisSumDK = pp[thisID][ppSUMDKidx]
-
-    # create a new record in the time series
-    ts.append([Time, thisID, thisSys, thisDia, thisRR, thisHR, thisOS, \
-               thisBT, thisMass, thisBMI, thisBaseE, thisTPain, thisDK, \
-               thisSumBaseE, thisSumTPain, thisSumDK])
-    
-    # add a random number of days to the time
-    Time += datetime.timedelta(days=r.randint(1,2))
-
-with open(tsName,'wb') as timeseriesFile:
-    csvWriter = csv.writer(timeseriesFile, dialect='excel')
-    csvWriter.writerows(tsHdr)
-    csvWriter.writerows(ts)
-
-# Write the patient parameters pp[] at the end to record cumulatives on BaseE, TPain, DK
-with open(ppName,'wb') as patientParameterFile:
-    csvWriter = csv.writer(patientParameterFile, dialect='excel')
-    csvWriter.writerows(ppHdr)
-    csvWriter.writerows(pp)
-```
 
 
 ### 2C. Installing software and operating POC A
@@ -1595,176 +1046,6 @@ Step 1 is Install the OHDSI WebAPI and configure the appropriate sources.
 ... and so on ...
 
 
-
-
-## Appendix: Fossil residual please refactor back into the above
-
-
-### Procedure Log
-
-
-Create a VPC **V**
-
-
-![pic0001](/documentation/images/aws/hipaa0001.png)
-
-
-![hipaa0002](/documentation/images/aws/hipaa0002.png)
-
-
-- Use the name 'hipaa'; should be unique.
-- CIDR as shown is typical.
-- Dedicated Instance means: Nobody else allowed here. 
-
-
-![hipaa0003](/documentation/images/aws/hipaa0003.png)
-
-
-- I added a tag indicating that I originated the VPC.
-
-
-### Create a subnet
-
-
-![hipaa0004](/documentation/images/aws/hipaa0004.png)
-
-
-![hipaa0005](/documentation/images/aws/hipaa0005.png)
-
-
-Public subnet addresses will be of the form: 10.0.0.2, .3, .4, ... .254
-
-
-![hipaa0006](/documentation/images/aws/hipaa0006.png)
-
-
-Take note of the AZ: 
-
-
-![hipaa0007](/documentation/images/aws/hipaa0007.png)
-
-
-We could do multiple public sub-nets by creating more than one in multiple Azs; that is a big-time concept.
-
-
-Now the private one: 
-
-
-![hipaa0007](/documentation/images/aws/hipaa0007.png)
-
-
-![hipaa0008](/documentation/images/aws/hipaa0008.png)
-
-
-![hipaa0009](/documentation/images/aws/hipaa0009.png)
-
-
-![hipaa0010](/documentation/images/aws/hipaa0010.png)
-
-
-Attach it to the VPC: 
-
-
-![hipaa0011](/documentation/images/aws/hipaa0011.png)
-
-
-![hipaa0012](/documentation/images/aws/hipaa0012.png)
-
-
-Now for the NAT Gateway
-
-
-![hipaa0013](/documentation/images/aws/hipaa0013.png)
-
-
-Choose the public one in czarhipaa
-
-
-![hipaa0014](/documentation/images/aws/hipaa0014.png)
-
-
-![hipaa0015](/documentation/images/aws/hipaa0015.png)
-
-
-Notice we Created a New EIP
-
-
-![hipaa0016](/documentation/images/aws/hipaa0016.png)
-
-
-Now the Route Table
-
-
-![hipaa0017](/documentation/images/aws/hipaa0017.png)
-
-
-![hipaa0018](/documentation/images/aws/hipaa0018.png)
-
-
-![hipaa0019](/documentation/images/aws/hipaa0019.png)
-
-
-Here they are (including the default main one): 
-
-
-![hipaa0020](/documentation/images/aws/hipaa0020.png)
-
-
-![hipaa0021](/documentation/images/aws/hipaa0021.png)
-
-
-Edit and modify as shown:
-
-
-![hipaa0022](/documentation/images/aws/hipaa0022.png)
-
-
-Save
-
-
-And then under Subnet Associations tab: Edit: 
-
-
-![hipaa0023](/documentation/images/aws/hipaa0023.png)
-
-
-Now let us go back to the Route Table selector
-
-
-![hipaa0024](/documentation/images/aws/hipaa0024.png)
-
-
-![hipaa0025](/documentation/images/aws/hipaa0025.png)
-
-
-![hipaa0026](/documentation/images/aws/hipaa0026.png)
-
-
-Subnet Associations tab: 
-
-
-![hipaa0027](/documentation/images/aws/hipaa0027.png)
-
-
-![hipaa0028](/documentation/images/aws/hipaa0028.png)
-
-
-Now for the Endpoint
-
-
-![hipaa0029](/documentation/images/aws/hipaa0029.png)
-
-
-Notice that this has Full Access; we will restrict access at a later step.
-
-
-![hipaa0030](/documentation/images/aws/hipaa0030.png)
-
-
-end as of Jan 27 2017.
-
-
-
 ### Risk
 
 
@@ -1815,7 +1096,7 @@ data systems.
 
 
   - Such S3 buckets only accept http PUT; not GET or LIST
-- Create an S3 bucke **S3O** for output
+- Create an S3 bucket **S3O** for output
 - Create an S3 bucke **S3L** for logging
 - Create an S3 Endpoint **S3EP_D** in **V**
 - Create an S3 Endpoint **S3EP_O** in **V**
