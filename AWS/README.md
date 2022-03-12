@@ -1,8 +1,13 @@
 # AWS Cloud Security Notes
 
-Authors: Chintan Pathak, Rob Fatland
+
+This document is an overview and a collection of training references for operating securely on the AWS cloud. 
+There is also -- in the SDRE sub-folder -- a [collection of notes available](SDRE/README.md) on building secure 
+digital research environments for working with sensitive clinical data. 
+
 
 ## Terminology in progressive order
+
 
 * **Intrusion**: Unuathorized use of a resource.
 * **CLI**: Command line interface, a means of manipulating AWS resources across a secure connection
