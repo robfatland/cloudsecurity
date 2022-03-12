@@ -37,8 +37,8 @@ Authors: Chintan Pathak, Rob Fatland
 
 * [AWS Support video on MFA CLI](https://aws.amazon.com/premiumsupport/knowledge-center/authenticate-mfa-cli/)
 * [AWS CLI Role configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-mfa)
-* [IAM Roles and Permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_permissions-to-switch.html
-* [IAM Roles for Users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html
+* [IAM Roles and Permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_permissions-to-switch.html)
+* [IAM Roles for Users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html)
 * [IAM Roles: Assuming Roles](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sts/assume-role.html)
 
 
