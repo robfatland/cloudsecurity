@@ -65,3 +65,79 @@ Links for HIPAA blueprint and related follow.
 
 
 [GitHub on same](https://github.com/Azure/Health-Data-and-AI-Blueprint)
+
+
+
+## Notes on Azure SDRE implementation
+
+
+How long to build? 2.5 days
+
+
+Automated via ARM (Azure Resource Management) template
+
+
+- Virtual Network (VPC analog) (VNet)
+- Subnets: mainsubnet (private) and bastion (edge server)
+    - This mainsubnet is the path to the object storage
+- Peering with a separate VNet with access to Express Route
+- Network security group (NSG)
+- Bastion service
+
+
+The ARM template is JSON, developed in Visual Studio code using the ARM extension "ARM Tools".
+The template file contains IP addresses. 
+Azure DevOps repo designated for this purpose. 
+Azure organization is XXXXXXXX.
+
+
+Automated:
+- Creation of the VMs 
+    - Future: To be improved; for example any secrets / passwords > KeyVault
+    - Specifically DSVMs
+  
+Manual: 
+- Creating bock storage as a data disk "managed disk"
+- Create a Key Vault 
+    - Add DSVM identities here so that they can actually access the data via encryption
+- Drive encryption keys
+- Powershell: Go encrypt the drives (root and data)
+- Add NetID Group containing the external org users. User ~ Group ~ VM: Group added to Admin's group.
+- Install DUO software for 2FA
+- Each DSVM ip address is static
+- Schedule: Shutdown at 9 pm UTC
+
+Created a Custom Role (script) called vmoperator to give them the ability to shutdown / start VMs
+(this script is public) Machines are started on demand by researcher 
+
+Automated
+- Creation of the AML with dependencies from a separate template
+    - "Application Insights"
+    - AML Workspace
+    - Key Vault (not used)
+    - Storage Account (prereq, not used)
+
+Operation: 
+- Need quota big enough
+- Request compute "NC12S" where 12 is cores; so 12 x 20 nodes = 240; big quota
+- Combination of cores per node and number of nodes
+
+Storage: 
+- Create two storage accounts 'static' and 'working'
+    - As storage account V2: Added features 
+    - 'blob only' storage; this will probably change
+    - private endpoint, NIC = Network Interface Card
+    - for each storage account
+        - connection string based on an SAS token
+        - connection string is stored in Key Vault
+    
+Logging mechanism: 
+- Storage accounts store data internally: Extract and inject into Log Analytics Workspace
+- Access to VMs: Stored in a Log A W in a different table
+- Join and create a story!
+
+HIPAA blueprint: Policy, compliance, practices. 
+- Enables Security Center to identify whether we are in compliance
+- Enrolling the researcher (actual access, training on practices)
+  
+Also: Storage Recovery Services Vault: To back up the DSVMs 
