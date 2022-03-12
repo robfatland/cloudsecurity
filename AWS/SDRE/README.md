@@ -1,4 +1,50 @@
 # Secure Digital Research Environments on the AWS Cloud
+## [Extended Documentation (Source)](http://cloudmaven.github.io/documentation/aws_hipaa.html)
+
+
+These notes concern management of Private Health Information (PHI) under HIPAA regulations.
+The original version is (as of March 2022) still available 
+[at this link](http://cloudmaven.github.io/documentation/aws_hipaa.html) including
+may circa-2017 screencaps. On this page: Screencaps are removed the notes 
+have been partially updated. The potential
+value I would summarize as follows: 
+
+
+* Reading these notes will provide some exposure to the jargon, ideas and considerations
+* A fair amount is relevant in a topical way; but it is not a "builder's guide"
+* Regardless of what value this may have, please refer to current AWS documentation and tutorials
+
+
+
+The term introduced above, **SDRE** for Secure Digital Research Environment, may in the ensuing notes
+be referred to as a Secure Computing 
+Environment or **SCE**. 
+
+
+## Links
+
+
+- [AWS features that are HIPAA-aligned](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/)
+- [AWS talk (YouTube) on HIPAA compliance](https://www.youtube.com/watch?v=g4XI4IIYVrw)
+- [AWS HIPAA compliance blog Part 1 Automation](https://aws.amazon.com/blogs/security/how-to-automate-hipaa-compliance-part-1-use-the-cloud-to-protect-the-cloud/)
+- [AWS HIPAA compliance blog Part 2 Deployment](https://aws.amazon.com/blogs/security/how-to-use-aws-service-catalog-for-code-deployments-part-2-of-the-automating-hipaa-compliance-series/)
+- [AWS HIPAA compliance blog Part 3 CloudFormation](https://aws.amazon.com/blogs/security/how-to-translate-hipaa-controls-to-aws-cloudformation-templates-part-3-of-the-automating-hipaa-compliance-series/)
+- [AWS HIPAA compliance blog Part 4 Config](https://aws.amazon.com/blogs/security/how-to-use-aws-config-to-help-with-required-hipaa-audit-controls-part-4-of-the-automating-hipaa-compliance-series/)
+- [AWS HIPAA compliance architecture](https://medium.com/aws-activate-startup-blog/architecting-your-healthcare-application-for-hipaa-compliance-part-2-ea841a6f62a7)
+- [AWS HIPAA compliance white paper](http://d0.awsstatic.com/whitepapers/compliance/AWS_HIPAA_Compliance_Whitepaper.pdf)
+- The [NIST 800-66 HIPAA Compliance](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-66r1.pdf) documents
+  - Note that this cross-links to NIST 800-53 in Appendix D: A supporting document
+- [HIPAA home page](https://www.hhs.gov/hipaa/index.html/)
+- [HIPAA on Wikipedia](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act)
+- [HIPAA Privacy Rule Summary](https://www.hhs.gov/hipaa/for-professionals/privacy/laws-regulations/index.html)
+- [AWS Accelerator: NIST broad spectrum](https://aws.amazon.com/quickstart/architecture/accelerator-nist/)
+    - [Related Excel 'security matrix'](https://s3.amazonaws.com/quickstart-reference/enterprise-accelerator/nist/latest/assets/NIST-800-53-Security-Controls-Mapping.xlsx)
+- [Observational Medical Outcomes Partnership (OMOP)](http://omop.org/)
+
+
+
+
+## SDRE / SCE Introduction
 
 
 The material presented here is for learning purposes. It is centered around the concept
@@ -157,37 +203,9 @@ project timeline.
 
 
 
-# [Extended Documentation (Source)](http://cloudmaven.github.io/documentation/aws_hipaa.html)
-
-## Introduction
-
-These notes concern management of Private Health Information (PHI) under HIPAA regulations.
-
-
-## Links
-
-- [AWS features that are HIPAA-aligned](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/)
-- [AWS talk (YouTube) on HIPAA compliance](https://www.youtube.com/watch?v=g4XI4IIYVrw)
-- [AWS HIPAA compliance blog Part 1 Automation](https://aws.amazon.com/blogs/security/how-to-automate-hipaa-compliance-part-1-use-the-cloud-to-protect-the-cloud/)
-- [AWS HIPAA compliance blog Part 2 Deployment](https://aws.amazon.com/blogs/security/how-to-use-aws-service-catalog-for-code-deployments-part-2-of-the-automating-hipaa-compliance-series/)
-- [AWS HIPAA compliance blog Part 3 CloudFormation](https://aws.amazon.com/blogs/security/how-to-translate-hipaa-controls-to-aws-cloudformation-templates-part-3-of-the-automating-hipaa-compliance-series/)
-- [AWS HIPAA compliance blog Part 4 Config](https://aws.amazon.com/blogs/security/how-to-use-aws-config-to-help-with-required-hipaa-audit-controls-part-4-of-the-automating-hipaa-compliance-series/)
-- [AWS HIPAA compliance architecture](https://medium.com/aws-activate-startup-blog/architecting-your-healthcare-application-for-hipaa-compliance-part-2-ea841a6f62a7)
-- [AWS HIPAA compliance white paper](http://d0.awsstatic.com/whitepapers/compliance/AWS_HIPAA_Compliance_Whitepaper.pdf)
-- The [NIST 800-66 HIPAA Compliance](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-66r1.pdf) documents
-  - Note that this cross-links to NIST 800-53 in Appendix D: A supporting document
-- [HIPAA home page](https://www.hhs.gov/hipaa/index.html/)
-- [HIPAA on Wikipedia](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act)
-- [HIPAA Privacy Rule Summary](https://www.hhs.gov/hipaa/for-professionals/privacy/laws-regulations/index.html)
-- [AWS Accelerator: NIST broad spectrum](https://aws.amazon.com/quickstart/architecture/accelerator-nist/)
-    - [Related Excel 'security matrix'](https://s3.amazonaws.com/quickstart-reference/enterprise-accelerator/nist/latest/assets/NIST-800-53-Security-Controls-Mapping.xlsx)
-- [Observational Medical Outcomes Partnership (OMOP)](http://omop.org/)
 
 
 
-The term introduced above, **SDRE** for Secure Digital Research Environment, may in the ensuing notes
-be referred to as a Secure Computing 
-Environment or **SCE**. 
 
 
 There are three primary considerations: Data security
