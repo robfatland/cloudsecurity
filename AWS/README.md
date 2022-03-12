@@ -42,7 +42,7 @@ Authors: Chintan Pathak, Rob Fatland
 * [IAM Roles: Assuming Roles](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sts/assume-role.html)
 
 
-## Very Secure method outline
+## AWS Security: Command line interface (CLI)
 
 
 * Create a Role for use by an IAM user
@@ -61,7 +61,7 @@ Authors: Chintan Pathak, Rob Fatland
         * Subsequent CLI calls include **`export AWS_PROFILE=profilename`**
 
 
-## Alternative: Python
+## AWS Security: Python method
 
 
 * Allows you to assume a Role and prompt for Credentials:
@@ -69,7 +69,7 @@ Authors: Chintan Pathak, Rob Fatland
 * Modify this script to add the temporary credentials as environment variables
 
 
-## Alternative cheap EC2 method
+## AWS Security: EC2 method
 
 
 * Use a cheap EC2 instance with a role attached. 
