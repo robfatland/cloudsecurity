@@ -7,6 +7,16 @@ technical in nature do not comprise *training material*. They describe how one m
 go about building a SDRE on the AWS cloud.
 
 
+- Elements of SDRE building and use
+    - Building corresponding cyberinfrastructure (see Azure task above)
+    - Legal process considerations
+    - Project phases
+        - Initialize
+        - Training
+        - Operation 
+        - Incident Response
+        - Exit
+
 ## References and important notes
 
 * [University of Washington IT on ip address assignment](https://wiki.cac.washington.edu/pages/viewpage.action?pageId=53181947)
@@ -17,6 +27,7 @@ go about building a SDRE on the AWS cloud.
     * **ACTION: In all cases DELETE THE ACCESS KEY so it can not be used**  (We can always generate new ones)
 * TB Scale: Object storage for fast access costs approximately $100 / TB / month
 * [NIST 800-66 Rev 1 HIPAA Security Rule](http://csrc.nist.gov/publications/nistpubs/800-66-Rev1/SP-800-66-Revision1.pdf)
+* [Sherlock](https://sherlock.sdsc.edu/) SDRE at the UCSD San Diego Supercomputing Center
 * Cloud resources can be tagged with a multitude of key-value pairs
     * These absolutely must be used extensively to make clear the purpose and context of the resource
     * Example: A VM has attached block storage, equivalent to an attached disk drive
