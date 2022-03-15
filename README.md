@@ -1,7 +1,13 @@
+* This is a broad-topic repository on cloud security
+* [This link jumps to the notes on AWS for PHI.](https://github.com/robfatland/cloudsecurity/tree/master/AWS/SDRE)
+* [This link features a short (8 min) video on cloud security](https://cloudbank-project.github.io/cb-resources/cloud101/security/)
+
+
+
 # Cloud Security
 
 
-This repository is intended for a research team, a group of individuals working together to build and 
+This repository is written for a research team, a group of individuals working together to build and 
 use compute infrastructure on the public cloud. We discuss three choices of cloud provider:
 Microsoft Azure, Google Cloud Platform, and Amazon Web Services. These are abbreviated respectively
 **Azure**, **GCP**, and **AWS**. 
@@ -10,7 +16,7 @@ Microsoft Azure, Google Cloud Platform, and Amazon Web Services. These are abbre
 Regardless of which cloud we use, we strive to be efficient, to 
 yield the maximum compute for each dollar spent. Efficiency is a combination of cost management (best practices
 using cloud resources) and security (granting access to resources precisely and only to those who need it). 
-This repository is concerned with the latter.
+This repository is concerned with the latter: Security.
 
 
 ## Why use a particular cloud 
