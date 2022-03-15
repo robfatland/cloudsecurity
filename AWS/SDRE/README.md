@@ -2,26 +2,28 @@
 ## [Extended Documentation (Source)](http://cloudmaven.github.io/documentation/aws_hipaa.html)
 
 
-These notes concern management of Private Health Information (PHI) under HIPAA regulations.
-The original version is (as of March 2022) still available 
+These notes concern management of Private Health Information (PHI) under HIPAA regulations
+on the AWS cloud.
+The source version of these notes is (as of March 2022) still available 
 [at this link](http://cloudmaven.github.io/documentation/aws_hipaa.html) including
-may circa-2017 screencaps. On this page: Screencaps are removed the notes 
+may circa-2017 screencaps. So that version is more illustrative but also may be
+dated. On this version the screencaps are removed and the notes 
 have been partially updated. The potential
-value I would summarize as follows: 
+value of looking through here:
 
 
 * Reading these notes will provide some exposure to the jargon, ideas and considerations
-* A fair amount is relevant in a topical way; but it is not a "builder's guide"
+* A fair amount is relevant in a topical way; but this is not a "builder's guide"
 * Regardless of what value this may have, please refer to current AWS documentation and tutorials
 
 
 
 The term introduced above, **SDRE** for Secure Digital Research Environment, may in the ensuing notes
 be referred to as a Secure Computing 
-Environment or **SCE**. 
+Environment or **SDRE**. 
 
 
-## Links
+## Links / Refs / Intro Notes
 
 
 - [AWS features that are HIPAA-aligned](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/)
@@ -40,8 +42,31 @@ Environment or **SCE**.
 - [AWS Accelerator: NIST broad spectrum](https://aws.amazon.com/quickstart/architecture/accelerator-nist/)
     - [Related Excel 'security matrix'](https://s3.amazonaws.com/quickstart-reference/enterprise-accelerator/nist/latest/assets/NIST-800-53-Security-Controls-Mapping.xlsx)
 - [Observational Medical Outcomes Partnership (OMOP)](http://omop.org/)
-
-
+- [University of Washington IT on ip address assignment](https://wiki.cac.washington.edu/pages/viewpage.action?pageId=53181947)
+- R-Studio creates **`.rhistory`** files
+    - These files capture user activity; which might include entering access key credentials 
+    - If such a file is committed to a public repository (GitHub): The keys can be found
+    - If the commit is subsequently deleted: It can still persiste because GitHub is all about version control
+    - **ACTION: In all cases DELETE THE ACCESS KEY so it can not be used**  (We can always generate new ones)
+- TB Scale: Object storage for fast access costs approximately $100 / TB / month
+- [NIST 800-66 Rev 1 HIPAA Security Rule](http://csrc.nist.gov/publications/nistpubs/800-66-Rev1/SP-800-66-Revision1.pdf)
+- [Sherlock](https://sherlock.sdsc.edu/) SDRE at the UCSD San Diego Supercomputing Center
+- Cloud resources can be tagged with a multitude of key-value pairs
+    - These absolutely must be used extensively to make clear the purpose and context of the resource
+    - Example: A VM has attached block storage, equivalent to an attached disk drive
+        - The VM is tagged with key-value pair 'Name': 'Surgery Study'
+        - This is insufficient. There are many other questions that additional tagging can answer at a glance:
+            - When was the VM started?
+            - For what role in the research is the VM intended? 
+            - Who is the cognizant person associated?
+            - When should the VM be re-evaluated?
+            - What is the VMs intended on/off cycle?
+            - Who has access to the VM on the research team?
+            - Is the VM internet facing?
+            - Does the VM have attached storage drives?
+        - In addition the attached block storage (and other ancillary resources) should be tagged
+- In what follows we often use hexadecimal strings as IDs. Here we typically use **`aaaaaaaa`** to indicate these.
+    - Similarly 12.23.34.45 for ip addresses, 12.23.34.45/16 for CIDR blocks
 
 
 ## SDRE / SCE Introduction
@@ -62,35 +87,6 @@ go about building a SDRE on the AWS cloud.
         - Operation 
         - Incident Response
         - Exit
-
-## References and important notes
-
-* [University of Washington IT on ip address assignment](https://wiki.cac.washington.edu/pages/viewpage.action?pageId=53181947)
-* R-Studio creates **`.rhistory`** files
-    * These files capture user activity; which might include entering access key credentials 
-    * If such a file is committed to a public repository (GitHub): The keys can be found
-    * If the commit is subsequently deleted: It can still persiste because GitHub is all about version control
-    * **ACTION: In all cases DELETE THE ACCESS KEY so it can not be used**  (We can always generate new ones)
-* TB Scale: Object storage for fast access costs approximately $100 / TB / month
-* [NIST 800-66 Rev 1 HIPAA Security Rule](http://csrc.nist.gov/publications/nistpubs/800-66-Rev1/SP-800-66-Revision1.pdf)
-* [Sherlock](https://sherlock.sdsc.edu/) SDRE at the UCSD San Diego Supercomputing Center
-* Cloud resources can be tagged with a multitude of key-value pairs
-    * These absolutely must be used extensively to make clear the purpose and context of the resource
-    * Example: A VM has attached block storage, equivalent to an attached disk drive
-        * The VM is tagged with key-value pair 'Name': 'Surgery Study'
-        * This is insufficient. There are many other questions that additional tagging can answer at a glance:
-            * When was the VM started?
-            * For what role in the research is the VM intended? 
-            * Who is the cognizant person associated?
-            * When should the VM be re-evaluated?
-            * What is the VMs intended on/off cycle?
-            * Who has access to the VM on the research team?
-            * Is the VM internet facing?
-            * Does the VM have attached storage drives?
-        * In addition the attached block storage (and other ancillary resources) should be tagged
-* In what follows we often use hexadecimal strings as IDs. Here we typically use **`aaaaaaaa`** to indicate these.
-    * Similarly 12.23.34.45 for ip addresses, 12.23.34.45/16 for CIDR blocks
-
 
 
 ### Notional SDRE build
