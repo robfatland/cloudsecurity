@@ -1,15 +1,21 @@
-### Method to limit the type of instances a User can create
+## Method for limiting User choice of instance types
 
-(applies to Console as well as Programmatic access)
+* Applies to Console as well as Programmatic access
 
-The limits can be applied by creating the appropriate role. Avoid providing uses with AdministrativeAccess and give them specific roles. New roles can be created and as many policies can be attached as needed. 
+The limits are based on creating an appropriate role. 
+This avoids providing Users with AdministrativeAccess in favor of these specific roles. 
+As many policies as needed can be attached to a role. 
 
-* **Policy**: First create a policy that does the following: 
-    * Allow the user to use console and API. 
-    * Allow the user to start, stop, run and terminate instances (create and delete tags etc.)
-    * Deny running instances that do not belong to the allowed list of instances. 
+* **Policy**: First create a policy that: 
+    * Allows the User to use console and API
+    * Allows the User to start, stop, run and terminate instances, create and delete tags, ...
+    * Denies the User running instances that do not belong to the allowed list of instances 
 
-    The policy below does the above in three statements. This can be directly pasted, or created using the Visual Editor. 
+The policy below does this in three statements. This can be directly pasted; or created using the Visual Editor.
+
+
+> ***Note: This Policy has not been recently tested (March 2022). Be prepared to test/verify!!!***
+
 
 ```json
 {
@@ -71,23 +77,35 @@ The limits can be applied by creating the appropriate role. Avoid providing uses
 }
 ```
 
-Parsing the above policy: 
+Parsing this JSON:
+
 * The "Version" key specifies the year of policy specification (should not be changed).
 * The "Statement" key can be a single statement or an array of statements as needed. 
 * The "Sid" key is just for readability and has no impact on the actual implementation. 
 * The "Action"(s) and "Resource"(s) will vary depending on the type of resource this policy is trying to address. EC2 usually need access to these resources. 
 * Resources can be made more specific than specified above. For example, a resource is specified its Amazon Resource Name (ARN). Replacing the current ARN in statement 2 ("Sid": "VisualEditor1") with `"arn:aws:ec2:us-west-2:*:subnet/subnet-xxxxx"` would limit the EC2 instances to only belong to region `us-west-2` and a subnet specified by `subnet-xxxxx` (where xxxxx is a specific subnet in your VPC). Similarly, other `*` can be replaced to make them more specific. 
-* Finally, the statement with `"Effect": "Deny"` specifies what is denied, and here the `"Condition"` limits the user to spin up only t2.nano, t2.small, t2.micro and t2.medium. If, for example, all nano instances are allowed, then the above can be modified to `*.nano`. 
+* The statement with `"Effect": "Deny"` specifies what is denied, and here the `"Condition"` limits the user to spin up only t2.nano, t2.small, t2.micro and t2.medium. If, for example, all nano instances are allowed, then the above can be modified to `*.nano`. 
 
 * **Role**: Now attach the above created policy to a role. A new role can be created or an existing role can be modified to include the above policy. 
 
-#### Example usage of the above role 
 
-The users with the role above should be able to use the AWS Console to spin-up the said type of instances (not tested). The example below, shows how to apply these limits on an EC2 instance that programmatically spins up EC2 instances. 
+The first idea is to assign the Role to an IAM User. The second idea is to assign the Role to a Group and place the User in that Group. 
 
-* Create the EC2 instance (parent) using the AWS Console. 
-* After the parent instance is created, goto Actions -> Instance Settings -> Attach/Replace IAM Role and specify the role created above. 
-* This parent instance now, does not need the Access Keys to spin up new instances (child) programmatically. It can perpetually (as long as the IAM role is attached) spin up *only* the specified type of instances. This internally uses the AWS STS to give the parent instance credentials to generate child instances. 
+
+> ***Note: As mentioned above this needs testing/verification circa March 2022*** 
+
+
+### Example use
+
+
+Users on the Console with the Role above should be ready to go. Below we have the continuation of the idea: Assigning the Role to an EC2 instance
+so that it can be used to spin up other instances. 
+
+
+* Create an EC2 parent Instance using the AWS Console. 
+* On the Console with this Instance selected > Actions > Instance Settings > Attach/Replace IAM Role and specify the above Role
+* Now the parent Instance does not need Access Keys to spin up a child Instances (child) programmatically.
+As long as the IAM role is attached it can spin up the specified types of Instances. Internally this uses the AWS STS to give the parent instance credentials to generate child instances.
 
 
 #### References 
