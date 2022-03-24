@@ -6,6 +6,11 @@ There is also -- in the SDRE sub-folder -- a [collection of notes available](SDR
 digital research environments for working with sensitive clinical data. 
 
 
+Some notes are available in the ***Guides*** sub-folder: On using Policies and Roles to enable access. 
+These notes have not been thoroughly vetted and tested recently (2022) so should be before getting wider
+distribution (e.g. through CB).
+
+
 ## Terminology in progressive order
 
 
