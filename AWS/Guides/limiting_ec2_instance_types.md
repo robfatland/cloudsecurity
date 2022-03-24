@@ -2,14 +2,18 @@
 
 * Applies to Console as well as Programmatic access
 
-The limits are based on creating an appropriate role. 
-This avoids providing Users with AdministrativeAccess in favor of these specific roles. 
-As many policies as needed can be attached to a role. 
+The limits are based on creating an appropriate Role. 
+This avoids providing Users with blanket *AdministrativeAccess*. 
+As many Policies as needed can be attached to a Role.
+The Role can be assigned to a User *or* to another entity such as an EC2 instance. 
+The latter case supports spinning up additional Instances programmatically.
 
-* **Policy**: First create a policy that: 
+
+* Underlying **Policy**: The idea is to create a policy that 
     * Allows the User to use console and API
     * Allows the User to start, stop, run and terminate instances, create and delete tags, ...
-    * Denies the User running instances that do not belong to the allowed list of instances 
+    * Denies the User acess to Instance types that do not belong to the allowed list of types 
+
 
 The policy below does this in three statements. This can be directly pasted; or created using the Visual Editor.
 
