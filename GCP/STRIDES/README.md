@@ -77,6 +77,10 @@ Big Query has a built-in composer/editor with a RUN button to facilitate Big Que
 
 Because queries can be $ expensive $ do not be hesitant about learning how to write them effectively. That's a topic for another day.
 
+BigQuery -- being charged for querying your data -- is cost-dangerous. So there is Jupyter cell magic `%%bigquery`
+that enables us to run queries; but it is risky; whereas inside the console editor with syntax checking we can 
+be sure it will run before running it in a Python shell. 
+
 ## Docker containers
 
 Docker ***files*** describe how to build container images. This includes specifying an entry point: What to run on execution.
@@ -145,18 +149,17 @@ Now that we have the nextflow pipeline container in the GCR (Google Cloud Contai
 
 ```
 gcloud services enable lifesciences.googleapis.com
-   22  gsutil mb gs://$PROJECT_ID-nextflow
-   23  echo "export PROJECT=$(gcloud config get-value project)" >> ~/.bashrc
-   24  echo "export SERVICE_ACCOUNT_NAME=nextflow-service-account" >> ~/.bashrc
-   25  exec bash
-   26  echo "export SERVICE_ACCOUNT_ADDRESS=${SERVICE_ACCOUNT_NAME}@${PROJECT}.iam.gserviceaccount.com" >> ~/.bashrc
-   27  exec bash
-   28  gcloud iam service-accounts create ${SERVICE_ACCOUNT_NAME}
-   29  gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/lifesciences.workflowsRunner
-   30  gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/iam.serviceAccountUser
-   31  gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/serviceusage.serviceUsageConsumer
-   32  gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/storage.objectAdmin
-   33  
+gsutil mb gs://$PROJECT_ID-nextflow
+echo "export PROJECT=$(gcloud config get-value project)" >> ~/.bashrc
+echo "export SERVICE_ACCOUNT_NAME=nextflow-service-account" >> ~/.bashrc
+exec bash
+echo "export SERVICE_ACCOUNT_ADDRESS=${SERVICE_ACCOUNT_NAME}@${PROJECT}.iam.gserviceaccount.com" >> ~/.bashrc
+exec bash
+gcloud iam service-accounts create ${SERVICE_ACCOUNT_NAME}
+gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/lifesciences.workflowsRunner
+gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/iam.serviceAccountUser
+gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/serviceusage.serviceUsageConsumer
+gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/storage.objectAdmin
 ```
 
 
@@ -189,7 +192,13 @@ curl https://get.nextflow.io | bash
 
 ## Questions I Have
 
-* What is the best way to fall prey to a ransomware attack?
+* What is the best way to fall prey to a ransomware attack on GCP?
 * What is `exec bash` versus `~/.bashrc`?
+* What am I looking at installing / running in my laptop in order to work on GCP in this way programmatically?
+    * i.e. what is required to invisibly authenticate? Is there a reference / guide for this?
+
+
+
+
 
 
