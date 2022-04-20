@@ -143,8 +143,53 @@ Go to container registry to verify that the `rnaseq-nf` container is present.
 
 Now that we have the nextflow pipeline container in the GCR (Google Cloud Container Registry): We get to actually run the pipeline. 
 
+```
+gcloud services enable lifesciences.googleapis.com
+   22  gsutil mb gs://$PROJECT_ID-nextflow
+   23  echo "export PROJECT=$(gcloud config get-value project)" >> ~/.bashrc
+   24  echo "export SERVICE_ACCOUNT_NAME=nextflow-service-account" >> ~/.bashrc
+   25  exec bash
+   26  echo "export SERVICE_ACCOUNT_ADDRESS=${SERVICE_ACCOUNT_NAME}@${PROJECT}.iam.gserviceaccount.com" >> ~/.bashrc
+   27  exec bash
+   28  gcloud iam service-accounts create ${SERVICE_ACCOUNT_NAME}
+   29  gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/lifesciences.workflowsRunner
+   30  gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/iam.serviceAccountUser
+   31  gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/serviceusage.serviceUsageConsumer
+   32  gcloud projects add-iam-policy-binding ${PROJECT}     --member serviceAccount:${SERVICE_ACCOUNT_ADDRESS}     --role roles/storage.objectAdmin
+   33  
+```
+
+
+and then...
+
+
+```
+echo "export SERVICE_ACCOUNT_KEY=${SERVICE_ACCOUNT_NAME}-private-key.json" >> ~/.bashrc
+exec bash
+gcloud iam service-accounts keys create --iam-account=${SERVICE_ACCOUNT_ADDRESS} --key-file-type=json ${SERVICE_ACCOUNT_KEY}
+echo "export SERVICE_ACCOUNT_KEY_FILE=$PWD/$SERVICE_ACCOUNT_KEY" >> ~/.bashrc
+exec bash
+echo "export GOOGLE_APPLICATION_CREDENTIALS=$PWD/$SERVICE_ACCOUNT_KEY" >> ~/.bashrc
+exec bash
+```
+
+
+then...
+
+```
+echo "export NXF_VER=20.10.0" >> ~/.bashrc
+echo "export NXF_MODE=google" >> ~/.bashrc
+exec bash
+curl https://get.nextflow.io | bash
+```
+
+
+
 
 
 ## Questions I Have
 
 * What is the best way to fall prey to a ransomware attack?
+* What is `exec bash` versus `~/.bashrc`?
+
+
