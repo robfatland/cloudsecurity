@@ -3,7 +3,7 @@
 Course offered by Rui Costa, Christian Michael, Jason Ehrhart; coordinated by Amanda Tan at C.L.A.S.S. (Internet 2).
 This is a hands on that starts by moving a container to Google Container Registry from Docker Hub.
 
-# Freeform notes
+# Lecture notes
 
 ## Cloud Code
 
@@ -76,6 +76,56 @@ Big Query is a managed service. The idea is the User only worries about how to s
 Big Query has a built-in composer/editor with a RUN button to facilitate Big Query.
 
 Because queries can be $ expensive $ do not be hesitant about learning how to write them effectively. That's a topic for another day.
+
+## Lab 1 procedure
+
+```
+docker pull nextflow/rnaseq-nf
+
+<lots of output>
+
+docker images
+
+<should list what the first command downloaded>
+
+docker create --name rnaseq-nf nextflow/rnaseq-nf:latest
+
+<creates a container but does not start it>
+
+docker ps
+
+<shows what is running: nothing> 
+
+docker ps -a
+
+<lists running and not-running containers including the image we downloaded above with docker pull>
+```
+
+At this point we have a configuration "change" opportunity. Note containers can be created empty; or with some basic tools; and go from there.
+But in this case we have a boutique container courtesy of the nextflow organization. 
+
+
+```
+docker commit rnaseq-nf
+docker images
+
+<now we see two images: Note the untagged one ID which we use below>
+
+echo "export PROJECT_ID=$(gcloud config get-value project)" >> ~/.bashrc
+exec bash
+```
+
+There follows a few steps to get the image I want into the GCP container registry.
+
+```
+echo "export PROJECT_ID=$(gcloud config get-value project)" >> ~/.bashrc
+exec bash
+docker tag b2b18bc423fe gcr.io/$PROJECT_ID/rnaseq-nf
+docker images
+docker push gcr.io/$PROJECT_ID/rnaseq-nf
+```
+
+Go to container registry to verify that the `rnaseq-nf` container is present.
 
 
 ## Questions I Have
