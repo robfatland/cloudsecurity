@@ -75,6 +75,7 @@ Big Query is a managed service. The idea is the User only worries about how to s
 
 Big Query has a built-in composer/editor with a RUN button to facilitate Big Query.
 
+Because queries can be $ expensive $ do not be hesitant about learning how to write them effectively. That's a topic for another day.
 
 
 ## Questions I Have
