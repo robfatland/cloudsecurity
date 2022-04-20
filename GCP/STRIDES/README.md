@@ -44,6 +44,9 @@ gcloud compute instances list
 and is GB in size. Most Containers are measured in MB rather than GB and are much more efficient on a machine's resources.
 
 
+* Which is why containers are what all of the cool kids are using these days.
+
+
 ## Cloud Storage
 
 * Binary large-object storage
@@ -70,6 +73,7 @@ and is GB in size. Most Containers are measured in MB rather than GB and are muc
 
 Big Query is a managed service. The idea is the User only worries about how to send data in; and how to run queries, and everything else is handled for you.
 
+Big Query has a built-in composer/editor with a RUN button to facilitate Big Query.
 
 
 
