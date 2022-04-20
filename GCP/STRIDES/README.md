@@ -77,6 +77,17 @@ Big Query has a built-in composer/editor with a RUN button to facilitate Big Que
 
 Because queries can be $ expensive $ do not be hesitant about learning how to write them effectively. That's a topic for another day.
 
+## Docker containers
+
+Docker ***files*** describe how to build container images. This includes specifying an entry point: What to run on execution.
+Images are files that contain the docker environment; which are distributable / movable / runnable.
+Docker containers are images that have been executed. If the entry point is ... somehow ... "be an operating system" versus "run this code".
+
+
+A key container idea is creating mount points that exist within the container and external to the container (some sort of alias) so that data can be configured externally and made available to the container; and results can be written to a container-local directory which exists simultaneously outside in the computer's environment. This gives us send/receive from the reality world of the computer to the toy reality world of the container.
+
+
+
 ## Lab 1 procedure
 
 ```
