@@ -128,6 +128,12 @@ docker push gcr.io/$PROJECT_ID/rnaseq-nf
 Go to container registry to verify that the `rnaseq-nf` container is present.
 
 
+## Running Nextflow pipelines in Google Cloud
+
+Now that we have the nextflow pipeline container in the GCR (Google Cloud Container Registry): We get to actually run the pipeline. 
+
+
+
 ## Questions I Have
 
 * What is the best way to fall prey to a ransomware attack?
