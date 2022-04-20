@@ -32,4 +32,47 @@ gcloud compute instances list
     * Note there is an Enable Cloud Run API
         * Formerly we had to do this in the console using the left menu "API" section; so nice to do from within CSE
         * cloud-run and k8 are the services that are enabled in this path for the API; so constrained in that sense
-* 
+
+## Notes from Jason
+
+
+* Technically, a container *is* a VM, but it is a greatly reduced VM as containers have just minimum libraries 
+(in read-only layers), to run what it is supposed to run.
+
+
+* When you compare a container to a VM, say a VMWare VM, the VMWare VM has all of the things an OS normally has 
+and is GB in size. Most Containers are measured in MB rather than GB and are much more efficient on a machine's resources.
+
+
+## Cloud Storage
+
+* Binary large-object storage
+    * Hi-perf S3 equivalent; also called Buckets
+    * By default encrypted at rest (actually you can't turn this off)
+        * This rule also applies to database services
+    * By default encrypted in transit from Google to endpoint
+    * Standard, Nearline, Coldline, Archive storage (tiers)
+        * Respective minimum durations are none, 30 days, 90 days, 365 days
+    * Use cases respectively:
+        * Hot
+        * Access less than once per month: Data backup, long tail media
+        * Access less than once per quarter
+        * Access less than once per year (DR, archival requirements)
+
+### GCP Storage Types including Cloud Storage
+
+* Firestore (NoSQL)
+* Cloud Bigtable (NoSQL wide column)
+* Cloud Storage (Blobstore object: see above)
+* Cloud SQL (Relational SQL for OLTP: Smallish)
+* Cloud Spanner (Relational SQL for OLTP: Petabytes)
+* Big QUery: Relational SQL for OLAP
+
+Big Query is a managed service. The idea is the User only worries about how to send data in; and how to run queries, and everything else is handled for you.
+
+
+
+
+## Questions I Have
+
+* What is the best way to fall prey to a ransomware attack?
